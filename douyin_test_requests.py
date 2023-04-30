@@ -5,19 +5,6 @@ import re
 import requests
 import sys
 
-# 格式化输出模块
-# from pprint import pprint
-# 爬取抖音无水印
-# 原始链接
-'''url = input("请输入抖音分享链接：")
-if 'douyin' in url:
-    # 处理抖音链接
-    print("解析抖音链接中")
-else:
-    # 提示用户输入抖音链接
-    print("请输入抖音分享链接")
-    # 停止程序的运行
-    sys.exit()'''
 while True:
     while True:
         url = input("抖音分享链接 ( 退出请输入：quit )：")
@@ -55,15 +42,8 @@ while True:
     title = title.replace('share/', '')
     url = ('https://' + title)
     print('解析链接：'+url)
-    '''
-    # 发送get请求
-    response = requests.get(url)
-    # 检查最终的URL
-    redirect_url = response.url
-    print(redirect_url)'''
-    # 变量
+    # 添加一个亲球头信息
     headers = {
-        # 添加一个亲球头信息
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/110.0.0.0'
                       'Safari/537.36 Edg/110.0.1587.57'
@@ -92,31 +72,15 @@ while True:
     title = title.replace('#', '')
     # 解析数据
     info = re.findall('<script id="RENDER_DATA" type="application/json">(.*?)</script>', resp.text)[0]
-    # print(info)
+
     html_data = requests.utils.unquote(info)
-    # print(html_data)
+
     json_data = json.loads(html_data)
-    # pprint(json_data['44']['aweme']['detail']['video']['bitRateList'])
-    # loss = json_data['44']['aweme']['detail']['video']['bitRateList'][0]['playAddr'][0]
-    # pprint(loss)
-    video_url = 'https:' + json_data['44']['aweme']['detail']['video']['bitRateList'][0]['playAddr'][0]['src']
-
+    # 打印视频链接
+    print(json_data)
+    video_url = 'https:' + json_data['45']['aweme']['detail']['video']['bitRateList'][0]['playAddr'][0]['src']
+    print(video_url)
     video_data = requests.get(url=video_url, headers=headers).content
-    # .content 返回二进制数据
-    # with open('woniu\\' + title + '.mp4', mode='wb') as f:
-    #     f.write(video_data)
-    #     print('下载完成')
-
-
-    # # 获取当前目录
-    # current_dir = os.getcwd()
-    # print(current_dir)
-    # # 创建 Download 文件夹
-    # download_dir = os.path.join(current_dir, 'Download_tiktok')
-    # if not os.path.exists(download_dir):
-    #     os.makedirs(download_dir)
-    # # 检查文件是否已经存在
-
     # 获取当前脚本文件的绝对路径
     script_path = os.path.abspath(__file__)
     print(script_path)
